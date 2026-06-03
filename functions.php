@@ -12,6 +12,14 @@ function meziva_assets() {
         [],
         '1.0'
     );
+     wp_enqueue_style(
+        'meziva-tailwind',
+        get_template_directory_uri() . '/assets/css/output.css',
+        [],
+        filemtime(
+            get_template_directory() . '/assets/css/output.css'
+        )
+    );
 
 }
 

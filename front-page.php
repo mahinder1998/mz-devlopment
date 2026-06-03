@@ -1,5 +1,9 @@
 <?php get_header(); ?>
 
-<h1>Meziva Home Page Working 🚀</h1>
+<div class="flex items-center justify-center h-screen bg-blue-500">
+    <h1 class="text-white text-6xl font-bold">
+        Tailwind Working 🚀
+    </h1>
+</div>
 
-<?php get_footer(); ?> 
+<?php get_footer(); ?>
