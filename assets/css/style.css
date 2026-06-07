@@ -1,0 +1,22 @@
+/*
+Theme Name: Meziva Theme
+Author: Mahinder
+Version: 1.0
+*/
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+}
+
+#mezivaSearchDrawer::-webkit-scrollbar {
+    width: 6px;
+}
+
+#mezivaSearchDrawer::-webkit-scrollbar-thumb {
+    background: #999;
+    border-radius: 20px;
+}
