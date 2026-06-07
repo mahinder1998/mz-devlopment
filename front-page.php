@@ -1,9 +1,9 @@
 <?php get_header(); ?>
 
-<div class="flex items-center justify-center h-screen bg-blue-500">
-    <h1 class="text-white text-6xl font-bold">
-        Tailwind Working hello 🚀
-    </h1>
-</div>
+<main>
+    <?php get_template_part('template-parts/home/hero-slider'); ?>
+    <?php get_template_part('template-parts/home/bestsellers'); ?>
+
+</main>
 
 <?php get_footer(); ?>
