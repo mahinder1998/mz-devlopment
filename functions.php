@@ -18,7 +18,12 @@ add_action('after_setup_theme', 'meziva_theme_setup');
 
 /* Assets */
 function meziva_assets() {
-    wp_enqueue_style('meziva-style', get_stylesheet_uri(), [], '1.0');
+    wp_enqueue_style(
+        'meziva-style',
+        get_stylesheet_uri(),
+        [],
+        filemtime(get_stylesheet_directory() . '/style.css')
+    );
 
     $output_css = get_template_directory() . '/assets/css/output.css';
     wp_enqueue_style(
