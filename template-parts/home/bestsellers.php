@@ -123,7 +123,8 @@ $query = new WP_Query($args);
                                 </div>
 
                                 <button 
-                                    class="meziva-add-to-cart w-full bg-[#333333] cursor-pointer hover:bg-[#222222] text-white font-extrabold py-3 rounded-xl transition"
+                                   type="button"
+                                    class="meziva-add-to-cart meziva-ajax-add-cart w-full bg-[#333333] cursor-pointer hover:bg-[#222222] text-white font-extrabold py-3 rounded-xl transition"
                                     data-product-id="<?php echo esc_attr($product_id); ?>"
                                 >
                                     Add To Cart

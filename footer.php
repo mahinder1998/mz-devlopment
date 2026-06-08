@@ -19,6 +19,9 @@ $social_links = [
 ];
 ?>
 
+
+
+
 <footer class="bg-[#f5f5f5] text-black">
 
     <div class="max-w-[1400px] mx-auto px-4 md:px-8 py-10 grid grid-cols-1 md:grid-cols-4 gap-10">
@@ -98,6 +101,15 @@ $social_links = [
     </div>
 
 </footer>
+
+
+<div id="mzCartOverlay" class="mz-cart-overlay"></div>
+
+<aside id="mzMiniCart" class="mz-mini-cart">
+    <div id="mzMiniCartContent">
+        <?php echo function_exists('meziva_get_minicart_html') ? meziva_get_minicart_html() : ''; ?>
+    </div>
+</aside>
 
 <?php wp_footer(); ?>
 </body>
