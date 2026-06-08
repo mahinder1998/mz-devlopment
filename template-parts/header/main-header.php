@@ -47,12 +47,14 @@ $cart_count = function_exists('WC') && WC()->cart ? WC()->cart->get_cart_content
       </svg>
 
       </a>
-      <a href="<?php echo esc_url(function_exists('wc_get_cart_url') ? wc_get_cart_url() : home_url('/cart')); ?>" class="relative text-xl">
+      <a href="<?php echo esc_url(wc_get_cart_url()); ?>" class="mz-open-cart relative text-xl">
         <svg class="w-6 h-6 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312"/>
         </svg>
 
-        <span class="absolute -top-2 -right-2 text-xs bg-[#7a3f1c] text-white border rounded-full px-1"><?php echo esc_html($cart_count); ?></span>
+       <span class="mz-cart-count absolute -top-2 -right-2 text-xs bg-[#8b3f24] text-white rounded-full px-1">
+        <?php echo WC()->cart ? WC()->cart->get_cart_contents_count() : 0; ?>
+    </span>
       </a>
     </div>
   </div>
