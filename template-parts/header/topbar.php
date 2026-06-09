@@ -7,7 +7,7 @@ for ($i = 1; $i <= 5; $i++) {
 }
 if (!$slides) $slides[] = ['line_1' => 'Product Of The Month : Milk Drops Brightening Serum', 'line_2' => 'Use code HURRY20 & Get FLAT 20% OFF'];
 ?>
-<div class="meziva-topbar bg-[#7a3f1c] text-white text-center text-xs md:text-sm font-bold  relative z-50 overflow-hidden">
+<div class="meziva-topbar bg-primary text-white text-center text-xs md:text-sm font-bold  relative z-50 overflow-hidden">
     <!-- <button type="button" id="mezivaTopbarPrev" class="absolute left-4 md:left-[32%] top-1/2 -translate-y-1/2 text-black text-xl z-10">‹</button> -->
     <div class="meziva-topbar-track relative min-h-[38px]">
         <?php foreach ($slides as $index => $slide) : ?>

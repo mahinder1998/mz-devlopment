@@ -40,7 +40,7 @@ $social_links = [
 
         <div class="md:col-span-2 lg:px-[80px]">
             <?php if ($menu_title) : ?>
-                <h3 class="text-lg font-extrabold mb-4 text-[#7a3f1c]">
+                <h3 class="text-lg font-extrabold mb-4 text-heading">
                     <?php echo esc_html($menu_title); ?>
                 </h3>
             <?php endif; ?>
@@ -60,7 +60,7 @@ $social_links = [
 
         <div>
             <?php if ($social_title) : ?>
-                <h3 class="text-lg font-extrabold mb-4 text-[#7a3f1c]">
+                <h3 class="text-lg font-extrabold mb-4 text-heading">
                     <?php echo esc_html($social_title); ?>
                 </h3>
             <?php endif; ?>
@@ -68,7 +68,7 @@ $social_links = [
             <div class="flex items-center gap-3 mb-5">
                 <?php foreach ($social_links as $social) : ?>
                     <?php if (!empty($social['url'])) : ?>
-                        <a href="<?php echo esc_url($social['url']); ?>" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-[#eaf1d8] hover:bg-[#dbe8c2] flex items-center justify-center font-bold transition">
+                        <a href="<?php echo esc_url($social['url']); ?>" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-primary-light hover:bg-primary flex items-center justify-center font-bold transition">
                             <?php echo esc_html($social['icon']); ?>
                         </a>
                     <?php endif; ?>
@@ -78,7 +78,7 @@ $social_links = [
             <?php if ($phone) : ?>
                 <p class="text-sm text-gray-700 mb-2">
                     Phone:
-                    <a href="tel:<?php echo esc_attr(preg_replace('/\s+/', '', $phone)); ?>" class="font-bold text-[#7a3f1c]">
+                    <a href="tel:<?php echo esc_attr(preg_replace('/\s+/', '', $phone)); ?>" class="font-bold text-heading">
                         <?php echo esc_html($phone); ?>
                     </a>
                 </p>
@@ -87,7 +87,7 @@ $social_links = [
             <?php if ($email) : ?>
                 <p class="text-sm text-gray-700">
                     Email:
-                    <a href="mailto:<?php echo esc_attr($email); ?>" class="font-bold text-[#7a3f1c]">
+                    <a href="mailto:<?php echo esc_attr($email); ?>" class="font-bold text-heading">
                         <?php echo esc_html($email); ?>
                     </a>
                 </p>

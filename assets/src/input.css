@@ -1,8 +1,30 @@
 @import "tailwindcss";
 
 @source "../../*.php";
+@source "../../woocommerce/**/*.php";
 @source "../../template-parts/**/*.php";
 @source "../../assets/js/**/*.js";
+@source "../../includes/**/*.php";
+@source "../../modules/**/*.php";
+
+@theme {
+    --color-primary: #C79046;
+    --color-primary-light: #D9A45A;
+
+    --color-secondary: #832940;
+    --color-secondary-light: #A44A61;
+
+    --color-brown: #7A3F1C;
+    --color-brown-light: #B99987;
+
+    --color-heading: #25190F;
+    --color-body: #555555;
+    --color-background: #F8F8F8;
+    --color-border: #E5E7EB;
+
+    --shadow-card: 0 4px 20px rgba(0,0,0,0.08);
+    --shadow-popup: 0 24px 70px rgba(0,0,0,0.28);
+}
 
 @layer utilities {
     .no-scrollbar::-webkit-scrollbar {

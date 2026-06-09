@@ -137,9 +137,8 @@ body.mz-cart-open {
 .mz-cart-head h3 {
     font-size: 24px;
     font-weight: 900;
-    color: #9fbd58;
     margin: 0 0 6px;
-    font-family: serif;
+    
 }
 
 .mz-cart-head h3 span {
@@ -183,7 +182,7 @@ body.mz-cart-open {
 
 .mz-progress-fill {
     height: 100%;
-    background: #9fbd58;
+    background: #C79046;
     border-radius: 20px;
 }
 
@@ -193,7 +192,7 @@ body.mz-cart-open {
     transform: translate(-50%, -50%);
     width: 28px;
     height: 28px;
-    background: #9fbd58;
+    background: #C79046;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -245,7 +244,7 @@ body.mz-cart-open {
 }
 
 .mz-cart-saving {
-    color: #9fbd58;
+    color: #C79046;
     font-size: 13px;
     font-weight: 700;
     margin-top: 5px;
@@ -271,7 +270,7 @@ body.mz-cart-open {
 }
 
 .mz-cart-remove {
-    color: #9fbd58;
+    color: #C79046;
     font-size: 14px !important;
 }
 
@@ -302,7 +301,7 @@ body.mz-cart-open {
 }
 
 .mz-you-pay {
-    color: #9fbd58;
+    color: #C79046;
     font-size: 22px !important;
 }
 
@@ -318,7 +317,7 @@ body.mz-cart-open {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #9fbd58;
+    background: #C79046;
     color: #fff !important;
     height: 48px;
     border-radius: 9px;
@@ -332,7 +331,7 @@ body.mz-cart-open {
 }
 
 .mz-empty-cart a {
-    color: #9fbd58;
+    color: #C79046;
     font-weight: 800;
 }
 
@@ -437,7 +436,7 @@ body.mz-cart-open {
     line-height: 1.2;
     font-weight: 900;
     margin: 0;
-    font-family: serif;
+    
     color: #050505;
 }
 
@@ -447,7 +446,7 @@ body.mz-cart-open {
     justify-content: center;
     min-width: 220px;
     height: 60px;
-    background: #9fbd58;
+    background: #C79046;
     color: #fff !important;
     border-radius: 14px;
     font-size: 18px;
@@ -475,4 +474,16 @@ body.mz-cart-open {
         height: 54px;
         font-size: 16px;
     }
+}
+
+.meziva-footer-menu a {
+    font-size: 14px;
+    transition: all .3s;
+}
+
+.meziva-footer-menu a:hover {
+    color: #832940;
+}
+nav.woocommerce-pagination {
+    padding: 20px 0 0;
 }
