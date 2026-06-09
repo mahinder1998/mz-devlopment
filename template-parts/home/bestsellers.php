@@ -29,7 +29,7 @@ $query = new WP_Query($args);
 <?php if ($query->have_posts()) : ?>
 <section class="py-10 md:py-14 overflow-hidden">
     <div class="max-w-[1400px] mx-auto px-4 md:px-8">
-        <h2 class="text-center text-3xl md:text-4xl font-extrabold text-[#a87800] mb-8">
+        <h2 class="text-center text-2xl md:text-3xl font-extrabold text-heading mb-8">
             <?php echo esc_html($title ?: 'Bestsellers'); ?>
         </h2>
 
@@ -66,7 +66,7 @@ $query = new WP_Query($args);
                 ?>
 
                     <div class="<?php echo $enable_slider ? 'min-w-[48%] md:min-w-[24%] snap-start' : ''; ?> group">
-                        <div class="bg-transparent">
+                        <div class="bg-transparent relative">
 
                             <a href="<?php the_permalink(); ?>" class="block relative rounded-xl overflow-hidden bg-white aspect-square">
                                 <?php if ($product->is_on_sale()) : ?>
@@ -74,6 +74,12 @@ $query = new WP_Query($args);
                                         Limited Time Deal
                                     </span>
                                 <?php endif; ?>
+
+                                 <?php if ($discount > 0) : ?>
+                                        <span class="bg-primary text-[#fff] absolute bottom-0 right-0 text-xs font-extrabold px-2 py-1 rounded">
+                                            <?php echo esc_html($discount); ?>% OFF
+                                        </span>
+                                    <?php endif; ?>
 
                                 <img 
                                     src="<?php echo esc_url($main_img); ?>" 
@@ -115,16 +121,13 @@ $query = new WP_Query($args);
                                         <?php echo wp_kses_post($product->get_price_html()); ?>
                                     </span>
 
-                                    <?php if ($discount > 0) : ?>
-                                        <span class="bg-[#d8e8c0] text-[#3e6519] text-xs font-extrabold px-2 py-1 rounded">
-                                            <?php echo esc_html($discount); ?>% OFF
-                                        </span>
-                                    <?php endif; ?>
+                                    
                                 </div>
+                               
 
                                 <button 
                                    type="button"
-                                    class="meziva-add-to-cart meziva-ajax-add-cart w-full bg-[#333333] cursor-pointer hover:bg-[#222222] text-white font-extrabold py-3 rounded-xl transition"
+                                    class="meziva-add-to-cart meziva-ajax-add-cart w-full bg-secondary cursor-pointer hover:bg-primary text-white font-extrabold py-3 rounded-xl transition"
                                     data-product-id="<?php echo esc_attr($product_id); ?>"
                                 >
                                     Add To Cart

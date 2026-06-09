@@ -128,13 +128,13 @@ class Meziva_Desktop_Menu_Walker extends Walker_Nav_Menu {
         $is_new = in_array('new', array_map('strtolower', $item->classes ?? []), true);
 
         if ($has_children) {
-            $output .= '<button type="button" class="meziva-mega-trigger relative hover:text-[#93aa52] transition" data-menu-id="' . esc_attr($item->ID) . '">';
+            $output .= '<button type="button" class="meziva-mega-trigger relative hover:text-secondary transition" data-menu-id="' . esc_attr($item->ID) . '">';
             if ($is_new) {
                 $output .= '<span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-red-800 text-white text-xs px-2 py-1 rounded-full">New</span>';
             }
             $output .= $title . ' <span class="text-sm">⌄</span></button>';
         } else {
-            $output .= '<a class="relative hover:text-[#93aa52] transition" href="' . $url . '">';
+            $output .= '<a class="relative hover:text-secondary transition" href="' . $url . '">';
             if ($is_new) {
                 $output .= '<span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-red-800 text-white text-xs px-2 py-1 rounded-full">New</span>';
             }
@@ -156,7 +156,7 @@ class Meziva_Mobile_Menu_Walker extends Walker_Nav_Menu {
             $output .= '<button type="button" class="meziva-mobile-sub-open w-full border-b border-[#9ab25b] py-3 text-lg flex items-center justify-between" data-menu-id="' . esc_attr($item->ID) . '" data-title="' . esc_attr($title) . '">';
             $output .= '<span>' . $title . ($is_new ? ' <span class="bg-red-800 text-white text-xs px-2 py-1 rounded-full">New</span>' : '') . '</span><span>›</span></button>';
         } else {
-            $output .= '<a class="block border-b border-[#9ab25b] py-3 text-lg" href="' . $url . '">' . $title;
+            $output .= '<a class="block border-b border-primary-light py-3 text-base" href="' . $url . '">' . $title;
             if ($is_new) {
                 $output .= ' <span class="bg-red-800 text-white text-xs px-2 py-1 rounded-full">New</span>';
             }

@@ -8,7 +8,24 @@ $whatsapp_url = meziva_get_option('meziva_whatsapp_url', 'https://wa.me/');
   <div class="flex items-center justify-between p-5 border-b">
     <div class="flex items-center gap-4">
       <div class="w-12 h-12 rounded-full border flex items-center justify-center text-xl">🏃</div>
-      <strong>Welcome, <span class="text-[#93aa52] font-normal">Tribe</span></strong>
+      <strong>
+    Welcome,
+    <span class="text-primary font-normal">
+        <?php
+        if ( is_user_logged_in() ) {
+            $current_user = wp_get_current_user();
+
+            echo esc_html(
+                !empty($current_user->first_name)
+                    ? $current_user->first_name
+                    : $current_user->display_name
+            );
+        } else {
+            echo 'Tribe';
+        }
+        ?>
+    </span>
+</strong>
     </div>
     <button id="mobileMenuClose" class="w-9 h-9 rounded-full bg-gray-100 text-2xl" aria-label="Close menu">×</button>
   </div>
