@@ -58,7 +58,7 @@ function meziva_product_assets() {
         wp_enqueue_script(
             'meziva-product',
             get_template_directory_uri() . '/assets/js/product.js',
-            ['meziva-theme'],
+            ['meziva-theme', 'meziva-minicart'],
             file_exists($product_js) ? filemtime($product_js) : '1.0',
             true
         );

@@ -1,184 +1,193 @@
 document.addEventListener("DOMContentLoaded", function () {
-    console.log("PRODUCT JS LOADED");
+  const images = window.MZ_PDP_IMAGES || [];
+  let currentIndex = 0;
 
-    const mainImage = document.getElementById("mzMainProductImage");
-    const thumbs = Array.from(document.querySelectorAll(".mz-thumb"));
-    const qtyInput = document.getElementById("mzPdpQty");
+  const mainImg = document.getElementById("mzMainProductImage");
+  const thumbs = document.querySelectorAll(".mz-thumb");
 
-    let currentIndex = 0;
+  const popup = document.getElementById("mzImagePopup");
+  const popupImg = document.getElementById("mzPopupImage");
 
-    function setImage(index) {
-        if (!mainImage || !thumbs[index]) return;
+  function setImage(index) {
+    if (!images[index] || !mainImg) return;
 
-        currentIndex = index;
-        mainImage.src = thumbs[index].dataset.img;
+    currentIndex = index;
+    mainImg.src = images[index];
 
-        thumbs.forEach((thumb) => {
-            thumb.classList.remove("border-[#9fbd58]", "border-2");
-            thumb.classList.add("border-[#ead6c8]");
-        });
+    thumbs.forEach((thumb) => {
+      const isActive = Number(thumb.dataset.index) === index;
+      thumb.classList.toggle("border-primary", isActive);
+      thumb.classList.toggle("border-transparent", !isActive);
+    });
+  }
 
-        thumbs[index].classList.remove("border-[#ead6c8]");
-        thumbs[index].classList.add("border-[#9fbd58]", "border-2");
+  thumbs.forEach((thumb) => {
+    thumb.addEventListener("click", function () {
+      setImage(Number(this.dataset.index || 0));
+    });
+  });
+
+  function openPopup() {
+    if (!popup || !popupImg) return;
+    popupImg.src = images[currentIndex] || mainImg?.src || "";
+    popup.classList.remove("hidden");
+    popup.classList.add("flex");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closePopup() {
+    popup?.classList.add("hidden");
+    popup?.classList.remove("flex");
+    document.body.style.overflow = "";
+  }
+
+  function popupNext() {
+    currentIndex = (currentIndex + 1) % images.length;
+    popupImg.src = images[currentIndex];
+    setImage(currentIndex);
+  }
+
+  function popupPrev() {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    popupImg.src = images[currentIndex];
+    setImage(currentIndex);
+  }
+
+  mainImg?.addEventListener("click", openPopup);
+  document.getElementById("mzZoomBtn")?.addEventListener("click", openPopup);
+  document.getElementById("mzClosePopup")?.addEventListener("click", closePopup);
+  document.getElementById("mzPopupNext")?.addEventListener("click", popupNext);
+  document.getElementById("mzPopupPrev")?.addEventListener("click", popupPrev);
+
+  popup?.addEventListener("click", function (e) {
+    if (e.target === popup) closePopup();
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") closePopup();
+  });
+
+  function getQty() {
+    const desktop = document.getElementById("mzPdpQty");
+    const mobile = document.getElementById("mzPdpQtyMobile");
+
+    if (window.innerWidth < 768 && mobile) {
+      return Math.max(1, parseInt(mobile.value || "1", 10));
     }
 
-    thumbs.forEach((thumb, index) => {
-        thumb.addEventListener("click", function () {
-            setImage(index);
-        });
+    return Math.max(1, parseInt(desktop?.value || "1", 10));
+  }
+
+  function syncQty(value) {
+    document.querySelectorAll("#mzPdpQty, #mzPdpQtyMobile").forEach((input) => {
+      input.value = value;
     });
+  }
 
-    document.querySelector(".mz-pdp-qty-plus")?.addEventListener("click", function () {
-        if (!qtyInput) return;
-        qtyInput.value = parseInt(qtyInput.value || "1", 10) + 1;
-    });
+  document.addEventListener("click", function (e) {
+    const plus = e.target.closest(".mz-pdp-qty-plus");
+    const minus = e.target.closest(".mz-pdp-qty-minus");
 
-    document.querySelector(".mz-pdp-qty-minus")?.addEventListener("click", function () {
-        if (!qtyInput) return;
+    if (plus || minus) {
+      let qty = getQty();
 
-        const currentQty = parseInt(qtyInput.value || "1", 10);
+      if (plus) qty++;
+      if (minus) qty = Math.max(1, qty - 1);
 
-        if (currentQty > 1) {
-            qtyInput.value = currentQty - 1;
-        }
-    });
-
-    const popup = document.getElementById("mzImagePopup");
-    const popupImage = document.getElementById("mzPopupImage");
-    const closePopupBtn = document.getElementById("mzClosePopup");
-    const zoomBtn = document.getElementById("mzZoomBtn");
-    const popupPrev = document.getElementById("mzPopupPrev");
-    const popupNext = document.getElementById("mzPopupNext");
-
-    function openPopup() {
-        if (!popup || !popupImage || !mainImage) return;
-
-        popup.classList.remove("hidden");
-        popup.classList.add("flex");
-        popupImage.src = mainImage.src;
-        document.body.style.overflow = "hidden";
+      syncQty(qty);
     }
+  });
 
-    function closePopup() {
-        if (!popup) return;
+  document.addEventListener("click", function (e) {
+    const btn = e.target.closest(".mzAjaxAddCart");
+    if (!btn) return;
 
-        popup.classList.add("hidden");
-        popup.classList.remove("flex");
-        document.body.style.overflow = "";
-    }
+    e.preventDefault();
 
-    function popupGo(direction) {
-        if (!thumbs.length) return;
+    const productId = btn.dataset.productId;
+    const qty = getQty();
+    const oldText = btn.textContent;
 
-        let nextIndex = currentIndex + direction;
+    btn.textContent = "Adding...";
+    btn.disabled = true;
 
-        if (nextIndex < 0) {
-            nextIndex = thumbs.length - 1;
+    const formData = new FormData();
+    formData.append("action", "meziva_add_to_cart_product");
+    formData.append("nonce", meziva_cart_ajax.nonce);
+    formData.append("product_id", productId);
+    formData.append("quantity", qty);
+
+    fetch(meziva_cart_ajax.ajax_url, {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        btn.disabled = false;
+
+        if (!data.success) {
+          btn.textContent = "Try Again";
+          setTimeout(() => (btn.textContent = oldText), 1200);
+          return;
         }
 
-        if (nextIndex >= thumbs.length) {
-            nextIndex = 0;
+        btn.textContent = "Added ✓";
+
+        if (typeof window.refreshCart === "function") {
+          window.refreshCart(true);
         }
 
-        setImage(nextIndex);
+        setTimeout(() => {
+          btn.textContent = oldText;
+        }, 1200);
+      })
+      .catch(() => {
+        btn.disabled = false;
+        btn.textContent = oldText;
+      });
+  });
 
-        if (popupImage && mainImage) {
-            popupImage.src = mainImage.src;
-        }
-    }
+  document.addEventListener("click", function (e) {
+    const coupon = e.target.closest(".mz-copy-coupon");
+    if (!coupon) return;
 
-    mainImage?.addEventListener("click", openPopup);
-    zoomBtn?.addEventListener("click", openPopup);
-    closePopupBtn?.addEventListener("click", closePopup);
+    const code = coupon.dataset.coupon || "";
+    const msg = document.getElementById("mzCouponMsg");
 
-    popupPrev?.addEventListener("click", function () {
-        popupGo(-1);
+    navigator.clipboard.writeText(code).then(() => {
+      msg?.classList.remove("hidden");
+
+      setTimeout(() => {
+        msg?.classList.add("hidden");
+      }, 1500);
     });
+  });
 
-    popupNext?.addEventListener("click", function () {
-        popupGo(1);
+  document.querySelectorAll(".mz-section-toggle").forEach((btn) => {
+    btn.addEventListener("click", function () {
+      const box = this.closest(".mz-pdp-section");
+      const content = box?.querySelector(".mz-section-content");
+      const icon = this.querySelector("span:last-child");
+
+      content?.classList.toggle("hidden");
+
+      if (icon) {
+        icon.textContent = content?.classList.contains("hidden") ? "+" : "−";
+      }
     });
+  });
 
-    popup?.addEventListener("click", function (event) {
-        if (event.target === popup) {
-            closePopup();
-        }
+  document.querySelectorAll(".mz-faq-toggle").forEach((btn) => {
+    btn.addEventListener("click", function () {
+      const faq = this.closest(".mz-faq");
+      const content = faq?.querySelector(".mz-faq-content");
+      const icon = this.querySelector("span");
+
+      content?.classList.toggle("hidden");
+
+      if (icon) {
+        icon.textContent = content?.classList.contains("hidden") ? "+" : "−";
+      }
     });
-
-    document.addEventListener("keydown", function (event) {
-        if (!popup || popup.classList.contains("hidden")) return;
-
-        if (event.key === "Escape") {
-            closePopup();
-        }
-
-        if (event.key === "ArrowLeft") {
-            popupGo(-1);
-        }
-
-        if (event.key === "ArrowRight") {
-            popupGo(1);
-        }
-    });
-
-    document.querySelectorAll(".mz-accordion-btn").forEach((btn) => {
-        btn.addEventListener("click", function () {
-            const content = this.nextElementSibling;
-            const icon = this.querySelector(".mz-acc-icon");
-
-            if (!content) return;
-
-            content.classList.toggle("hidden");
-
-            if (icon) {
-                icon.textContent = content.classList.contains("hidden") ? "+" : "−";
-            }
-        });
-    });
-
-    document.querySelector(".mzAjaxAddCart")?.addEventListener("click", function () {
-        const btn = this;
-        const productId = btn.dataset.productId;
-        const qty = qtyInput ? qtyInput.value : 1;
-
-        btn.disabled = true;
-        btn.textContent = "Adding...";
-
-        fetch(meziva_ajax.ajax_url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-            },
-            body: new URLSearchParams({
-                action: "meziva_ajax_add_cart",
-                product_id: productId,
-                quantity: qty,
-            }),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                btn.disabled = false;
-                btn.textContent = "Add To Cart";
-
-                if (!data.success) return;
-
-                const cartCount = document.querySelector(".mz-cart-count");
-                if (cartCount) {
-                    cartCount.textContent = data.data.count;
-                }
-
-                if (typeof window.refreshCart === "function") {
-                    window.refreshCart(true);
-                } else {
-                    const cartBtn = document.querySelector(".mz-open-cart");
-                    if (cartBtn) {
-                        cartBtn.click();
-                    }
-                }
-            })
-            .catch(() => {
-                btn.disabled = false;
-                btn.textContent = "Add To Cart";
-            });
-    });
+  });
 });
