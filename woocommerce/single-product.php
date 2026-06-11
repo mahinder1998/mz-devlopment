@@ -45,7 +45,7 @@ $rating = $product->get_average_rating();
 $rating_count = $product->get_rating_count();
 
 $offer_text  = mz_pdp_field('pdp_offer_text', 'Flat 20% Off');
-$coupon_code = mz_pdp_field(['pdp_coupon_code', 'coupon_code'], 'HURRY20');
+$coupon_code = mz_pdp_field(['pdp_coupon_code', 'coupon_code'], 'BUY 2');
 $coupon_text = mz_pdp_field('pdp_coupon_text', 'Special Offer');
 
 $benefit_image      = mz_pdp_img_url(mz_pdp_field(['pdp_benefit_image', 'benefit_image']));
