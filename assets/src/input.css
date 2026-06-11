@@ -5,7 +5,7 @@
 @source "../../template-parts/**/*.php";
 @source "../../assets/js/**/*.js";
 @source "../../includes/**/*.php";
-@source "../../modules/**/*.php";
+@source "../../modules/**/*.php"; 
 
 @theme {
     --color-primary: #C79046;
