@@ -647,25 +647,60 @@ function meziva_get_minicart_html() {
             <button type="button" class="mz-cart-close">×</button>
         </div>
 
-        <div class="mz-progress-wrap">
-            <div class="mz-progress-labels">
-                <span></span>
+        <?php
+$show_free_shipping = $free_amount > 0;
+$show_coupon_unlock = $coupon_amount > 0;
+$progress_target = $show_coupon_unlock ? $coupon_amount : ($show_free_shipping ? $free_amount : 0);
+$progress = $progress_target > 0 ? min(100, ($subtotal / $progress_target) * 100) : 0;
+?>
+
+<?php if ($show_free_shipping || $show_coupon_unlock) : ?>
+    <div class="mz-progress-wrap">
+        <div class="mz-progress-labels">
+            <span></span>
+
+            <?php if ($show_free_shipping) : ?>
                 <span><?php echo esc_html($free_label); ?></span>
-                <span><?php echo esc_html($coupon_label); ?></span>
-            </div>
-
-            <div class="mz-progress-line">
-                <div class="mz-progress-fill" style="width: <?php echo esc_attr($progress); ?>%;"></div>
-                <span class="mz-progress-dot mz-dot-one">🚚</span>
-                <span class="mz-progress-dot mz-dot-two">🏷️</span>
-            </div>
-
-            <div class="mz-progress-price">
+            <?php else : ?>
                 <span></span>
-                <span><?php echo wc_price($free_amount); ?></span>
-                <span><?php echo wc_price($coupon_amount); ?></span>
-            </div>
+            <?php endif; ?>
+
+            <?php if ($show_coupon_unlock) : ?>
+                <span><?php echo esc_html($coupon_label); ?></span>
+            <?php else : ?>
+                <span></span>
+            <?php endif; ?>
         </div>
+
+        <div class="mz-progress-line">
+            <div class="mz-progress-fill" style="width: <?php echo esc_attr($progress); ?>%;"></div>
+
+            <?php if ($show_free_shipping) : ?>
+                <span class="mz-progress-dot mz-dot-one">🚚</span>
+            <?php endif; ?>
+
+            <?php if ($show_coupon_unlock) : ?>
+                <span class="mz-progress-dot mz-dot-two">🏷️</span>
+            <?php endif; ?>
+        </div>
+
+        <div class="mz-progress-price">
+            <span></span>
+
+            <?php if ($show_free_shipping) : ?>
+                <span><?php echo wc_price($free_amount); ?></span>
+            <?php else : ?>
+                <span></span>
+            <?php endif; ?>
+
+            <?php if ($show_coupon_unlock) : ?>
+                <span><?php echo wc_price($coupon_amount); ?></span>
+            <?php else : ?>
+                <span></span>
+            <?php endif; ?>
+        </div>
+    </div>
+<?php endif; ?>
 
         <div class="mz-cart-items">
             <?php foreach ($cart->get_cart() as $cart_item_key => $cart_item) :

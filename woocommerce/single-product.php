@@ -177,7 +177,7 @@ foreach ($gallery_ids as $gid) {
 
                     <button
                         type="button"
-                        class="mzAjaxAddCart flex-1 h-14 rounded-xl bg-primary hover:bg-primary-light text-white font-extrabold text-lg transition"
+                        class="mzAjaxAddCart flex-1 h-14 rounded-xl bg-secondary hover:bg-primary text-white font-extrabold text-lg transition"
                         data-product-id="<?php echo esc_attr($product_id); ?>"
                     >
                         Add To Cart
@@ -349,7 +349,7 @@ if (!empty($related_ids)) :
 
                     <button
                         type="button"
-                        class="meziva-ajax-add-cart mt-3 w-full h-10 rounded-lg bg-primary text-white font-bold text-sm"
+                        class="meziva-ajax-add-cart mt-3 w-full h-10 rounded-lg bg-secondary hover:bg-primary cursor-pointer text-white font-bold text-sm"
                         data-product-id="<?php echo esc_attr($rid); ?>"
                     >
                         Add To Cart

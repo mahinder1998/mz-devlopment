@@ -317,12 +317,16 @@ body.mz-cart-open {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #C79046;
+    background: #832940;
     color: #fff !important;
     height: 48px;
     border-radius: 9px;
     font-weight: 800;
     text-decoration: none;
+}
+
+.mz-checkout-btn:hover{
+     background: #C79046;
 }
 
 .mz-empty-cart {
