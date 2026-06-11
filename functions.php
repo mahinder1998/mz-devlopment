@@ -713,20 +713,24 @@ function meziva_get_minicart_html() {
             <?php endforeach; ?>
         </div>
 
-        <div class="mz-save-strip">
-            🎟 <?php echo wp_kses_post($save_line); ?>
-        </div>
+        <?php if ($discount > 0) : ?>
+            <div class="mz-save-strip">
+                🎟 <?php echo wp_kses_post($save_line); ?>
+            </div>
+        <?php endif; ?>
 
-        <div class="mz-cart-summary">
+       <div class="mz-cart-summary">
             <div>
                 <span><?php echo esc_html($mrp_label); ?></span>
                 <strong><?php echo wc_price($subtotal + $discount); ?></strong>
             </div>
 
-            <div>
-                <span><?php echo esc_html($save_label); ?></span>
-                <strong><?php echo wc_price($discount); ?></strong>
-            </div>
+            <?php if ($discount > 0) : ?>
+                <div>
+                    <span><?php echo esc_html($save_label); ?></span>
+                    <strong><?php echo wc_price($discount); ?></strong>
+                </div>
+            <?php endif; ?>
 
             <div class="mz-you-pay">
                 <span><?php echo esc_html($pay_label); ?></span>
