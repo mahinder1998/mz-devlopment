@@ -49,7 +49,7 @@ foreach ($gallery_ids as $gid) {
 }
 ?>
 
-<section class="max-w-[1180px] mx-auto px-3 md:px-4 pt-4 md:pt-8">
+<section class="max-w-[1400px] mx-auto px-3 md:px-4 pt-4 md:pt-8">
 
     <div class="text-xs text-gray-600 mb-3 hidden md:block">
         <a href="<?php echo esc_url(home_url('/')); ?>">Home</a> /
@@ -205,7 +205,20 @@ foreach ($gallery_ids as $gid) {
 </div>
 
 <!-- Accordions -->
-<section class="max-w-[1180px] mx-auto px-3 md:px-4 py-5">
+<section class="max-w-[1400px] mx-auto px-3 md:px-4 py-5">
+
+
+ <div class="mz-pdp-section border-b border-primary py-3">
+        <button type="button" class="mz-section-toggle w-full flex items-center justify-between font-extrabold text-left">
+            <span>Description</span>
+            <span class="w-6 h-6 rounded-full border border-primary flex items-center justify-center text-sm">+</span>
+        </button>
+        <div class="mz-section-content hidden pt-4">
+            <div class="bg-white rounded-2xl p-5 shadow-sm text-sm md:text-base leading-8 text-gray-700">
+                <?php the_content(); ?>
+            </div>
+        </div>
+    </div>
 
     <?php
     $sections = [
@@ -293,17 +306,7 @@ foreach ($gallery_ids as $gid) {
         </div>
     </div>
 
-    <div class="mz-pdp-section border-b border-primary py-3">
-        <button type="button" class="mz-section-toggle w-full flex items-center justify-between font-extrabold text-left">
-            <span>Description</span>
-            <span class="w-6 h-6 rounded-full border border-primary flex items-center justify-center text-sm">+</span>
-        </button>
-        <div class="mz-section-content hidden pt-4">
-            <div class="bg-white rounded-2xl p-5 shadow-sm text-sm md:text-base leading-8 text-gray-700">
-                <?php the_content(); ?>
-            </div>
-        </div>
-    </div>
+   
 
 </section>
 
@@ -318,15 +321,7 @@ foreach ($gallery_ids as $gid) {
 </section>
 <?php endif; ?>
 
-<!-- Trust strip -->
-<section class="overflow-hidden bg-white py-3">
-    <div class="flex gap-10 whitespace-nowrap text-primary font-medium animate-none">
-        <span>✤ For the real you</span>
-        <span>✺ Safe & sustainable</span>
-        <span>❉ High performance formulation</span>
-        <span>✤ For the real you</span>
-    </div>
-</section>
+
 
 <!-- Related -->
 <?php
@@ -334,7 +329,7 @@ $related_ids = wc_get_related_products($product_id, 4);
 if (!empty($related_ids)) :
 ?>
 <section class="bg-white py-8 md:py-12">
-    <div class="max-w-[1180px] mx-auto px-3 md:px-4">
+    <div class="max-w-[1400px] mx-auto px-3 md:px-4">
         <h2 class="text-center text-xl font-extrabold mb-6">Frequently bought together</h2>
 
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
