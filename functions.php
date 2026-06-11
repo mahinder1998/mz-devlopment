@@ -489,6 +489,90 @@ function meziva_ajax_add_cart() {
 add_action('wp_ajax_meziva_ajax_add_cart', 'meziva_ajax_add_cart');
 add_action('wp_ajax_nopriv_meziva_ajax_add_cart', 'meziva_ajax_add_cart');
 
+
+/* Mini Cart Dynamic Settings */
+function meziva_minicart_customize_register($wp_customize) {
+
+    $wp_customize->add_section('meziva_minicart_settings', [
+        'title'    => __('Meziva Mini Cart Settings', 'meziva'),
+        'priority' => 35,
+    ]);
+
+    $fields = [
+        'meziva_cart_title' => [
+            'label' => 'Cart Title',
+            'default' => 'Your Shopping Cart',
+        ],
+        'meziva_cart_reward_text' => [
+            'label' => 'Reward Text',
+            'default' => 'All rewards unlocked 🎉',
+        ],
+        'meziva_cart_free_shipping_text' => [
+            'label' => 'Free Shipping Label',
+            'default' => 'Free Shipping',
+        ],
+        'meziva_cart_coupon_label' => [
+            'label' => 'Coupon Label',
+            'default' => 'SAVE100',
+        ],
+        'meziva_cart_free_shipping_amount' => [
+            'label' => 'Free Shipping Amount',
+            'default' => '899',
+        ],
+        'meziva_cart_coupon_amount' => [
+            'label' => 'Coupon Unlock Amount',
+            'default' => '1499',
+        ],
+        'meziva_cart_save_text' => [
+            'label' => 'Saving Strip Text',
+            'default' => 'You’ve saved {discount} with this order',
+        ],
+        'meziva_cart_mrp_label' => [
+            'label' => 'MRP Label',
+            'default' => 'MRP',
+        ],
+        'meziva_cart_save_label' => [
+            'label' => 'You Save Label',
+            'default' => 'You Save',
+        ],
+        'meziva_cart_pay_label' => [
+            'label' => 'You Pay Label',
+            'default' => 'You Pay',
+        ],
+        'meziva_cart_trust_text' => [
+            'label' => 'Trust Text',
+            'default' => 'Free Shipping | COD Available | Trusted by 10L+ People',
+        ],
+        'meziva_cart_checkout_text' => [
+            'label' => 'Checkout Button Text',
+            'default' => 'Checkout',
+        ],
+        'meziva_cart_empty_title' => [
+            'label' => 'Empty Cart Title',
+            'default' => 'Your cart is empty',
+        ],
+        'meziva_cart_continue_text' => [
+            'label' => 'Continue Shopping Text',
+            'default' => 'Continue shopping',
+        ],
+    ];
+
+    foreach ($fields as $key => $field) {
+        $wp_customize->add_setting($key, [
+            'default'           => $field['default'],
+            'sanitize_callback' => 'sanitize_text_field',
+        ]);
+
+        $wp_customize->add_control($key, [
+            'label'   => $field['label'],
+            'section' => 'meziva_minicart_settings',
+            'type'    => 'text',
+        ]);
+    }
+}
+add_action('customize_register', 'meziva_minicart_customize_register');
+
+
 /* Mini Cart HTML */
 function meziva_get_minicart_html() {
     if (!function_exists('WC') || !WC()->cart) return '';
@@ -496,13 +580,33 @@ function meziva_get_minicart_html() {
     ob_start();
 
     $cart = WC()->cart;
-    $cart_count = $cart->get_cart_contents_count();
-    $subtotal = (float) $cart->get_subtotal();
-    $discount = (float) $cart->get_discount_total();
-    $total = (float) $cart->get_total('edit');
 
-    $coupon_target = 1499;
-    $progress = $coupon_target > 0 ? min(100, ($subtotal / $coupon_target) * 100) : 0;
+    $cart_count = $cart->get_cart_contents_count();
+    $subtotal   = (float) $cart->get_subtotal();
+    $discount   = (float) $cart->get_discount_total();
+    $total      = (float) $cart->get_total('edit');
+
+    $cart_title       = get_theme_mod('meziva_cart_title', 'Your Shopping Cart');
+    $reward_text      = get_theme_mod('meziva_cart_reward_text', 'All rewards unlocked 🎉');
+
+    $free_label       = get_theme_mod('meziva_cart_free_shipping_text', 'Free Shipping');
+    $coupon_label     = get_theme_mod('meziva_cart_coupon_label', 'SAVE100');
+
+    $free_amount      = (float) get_theme_mod('meziva_cart_free_shipping_amount', '899');
+    $coupon_amount    = (float) get_theme_mod('meziva_cart_coupon_amount', '1499');
+
+    $save_text        = get_theme_mod('meziva_cart_save_text', 'You’ve saved {discount} with this order');
+    $mrp_label        = get_theme_mod('meziva_cart_mrp_label', 'MRP');
+    $save_label       = get_theme_mod('meziva_cart_save_label', 'You Save');
+    $pay_label        = get_theme_mod('meziva_cart_pay_label', 'You Pay');
+    $trust_text       = get_theme_mod('meziva_cart_trust_text', 'Free Shipping | COD Available | Trusted by 10L+ People');
+    $checkout_text    = get_theme_mod('meziva_cart_checkout_text', 'Checkout');
+
+    $empty_title      = get_theme_mod('meziva_cart_empty_title', 'Your cart is empty');
+    $continue_text    = get_theme_mod('meziva_cart_continue_text', 'Continue shopping');
+
+    $progress = $coupon_amount > 0 ? min(100, ($subtotal / $coupon_amount) * 100) : 0;
+    $save_line = str_replace('{discount}', wc_price($discount), $save_text);
     ?>
 
     <?php if ($cart_count <= 0) : ?>
@@ -519,10 +623,10 @@ function meziva_get_minicart_html() {
                 </svg>
             </div>
 
-            <h4>Your cart is empty</h4>
+            <h4><?php echo esc_html($empty_title); ?></h4>
 
             <a href="<?php echo esc_url(wc_get_page_permalink('shop')); ?>" class="mz-empty-btn">
-                Continue shopping
+                <?php echo esc_html($continue_text); ?>
             </a>
         </div>
 
@@ -530,17 +634,24 @@ function meziva_get_minicart_html() {
 
         <div class="mz-cart-head">
             <div>
-                <h3>Your Shopping Cart <span><?php echo esc_html($cart_count); ?></span></h3>
-                <p>All rewards unlocked 🎉</p>
+                <h3>
+                    <?php echo esc_html($cart_title); ?>
+                    <span><?php echo esc_html($cart_count); ?></span>
+                </h3>
+
+                <?php if ($reward_text) : ?>
+                    <p><?php echo esc_html($reward_text); ?></p>
+                <?php endif; ?>
             </div>
+
             <button type="button" class="mz-cart-close">×</button>
         </div>
 
         <div class="mz-progress-wrap">
             <div class="mz-progress-labels">
                 <span></span>
-                <span>Free Shipping</span>
-                <span>SAVE100</span>
+                <span><?php echo esc_html($free_label); ?></span>
+                <span><?php echo esc_html($coupon_label); ?></span>
             </div>
 
             <div class="mz-progress-line">
@@ -551,23 +662,26 @@ function meziva_get_minicart_html() {
 
             <div class="mz-progress-price">
                 <span></span>
-                <span>₹899</span>
-                <span>₹1499</span>
+                <span><?php echo wc_price($free_amount); ?></span>
+                <span><?php echo wc_price($coupon_amount); ?></span>
             </div>
         </div>
 
         <div class="mz-cart-items">
             <?php foreach ($cart->get_cart() as $cart_item_key => $cart_item) :
+
                 $_product = $cart_item['data'];
+
                 if (!$_product || !$_product->exists()) continue;
 
                 $product_id = $cart_item['product_id'];
-                $qty = $cart_item['quantity'];
-                $name = $_product->get_name();
-                $price = wc_price($_product->get_price());
-                $image = $_product->get_image('thumbnail');
-                $short = wp_strip_all_tags($_product->get_short_description());
+                $qty        = $cart_item['quantity'];
+                $name       = $_product->get_name();
+                $price      = wc_price($_product->get_price());
+                $image      = $_product->get_image('thumbnail');
+                $short      = wp_strip_all_tags($_product->get_short_description());
             ?>
+
                 <div class="mz-cart-item" data-key="<?php echo esc_attr($cart_item_key); ?>">
                     <a href="<?php echo esc_url(get_permalink($product_id)); ?>" class="mz-cart-img">
                         <?php echo wp_kses_post($image); ?>
@@ -581,47 +695,53 @@ function meziva_get_minicart_html() {
                         <?php endif; ?>
 
                         <strong><?php echo wp_kses_post($price); ?></strong>
-
-                        <?php if ($discount > 0) : ?>
-                            <div class="mz-cart-saving">Saved with coupon</div>
-                        <?php endif; ?>
                     </div>
 
                     <div class="mz-cart-qty">
-                        <button type="button" class="mz-cart-remove">🗑</button>
+                        <button type="button" class="mz-cart-remove" aria-label="Remove item">
+                            🗑
+                        </button>
+
                         <button type="button" class="mz-qty-minus">−</button>
+
                         <span><?php echo esc_html($qty); ?></span>
+
                         <button type="button" class="mz-qty-plus">+</button>
                     </div>
                 </div>
+
             <?php endforeach; ?>
         </div>
 
         <div class="mz-save-strip">
-            🎟 You’ve saved <?php echo wc_price($discount); ?> with this order
+            🎟 <?php echo wp_kses_post($save_line); ?>
         </div>
 
         <div class="mz-cart-summary">
             <div>
-                <span>MRP</span>
+                <span><?php echo esc_html($mrp_label); ?></span>
                 <strong><?php echo wc_price($subtotal + $discount); ?></strong>
             </div>
 
             <div>
-                <span>You Save</span>
+                <span><?php echo esc_html($save_label); ?></span>
                 <strong><?php echo wc_price($discount); ?></strong>
             </div>
 
             <div class="mz-you-pay">
-                <span>You Pay</span>
+                <span><?php echo esc_html($pay_label); ?></span>
                 <strong><?php echo wc_price($total); ?></strong>
             </div>
         </div>
 
-        <p class="mz-cart-trust">Free Shipping | COD Available | Trusted by 10L+ People</p>
+        <?php if ($trust_text) : ?>
+            <p class="mz-cart-trust">
+                <?php echo esc_html($trust_text); ?>
+            </p>
+        <?php endif; ?>
 
-        <a href="<?php echo esc_url(wc_get_checkout_url()); ?>" class="mz-checkout-btn">
-            🔒 Checkout
+        <a href="<?php echo esc_url(wc_get_checkout_url()); ?>" class="mz-checkout-btn mz-shiprocket-checkout">
+            🔒 <?php echo esc_html($checkout_text); ?>
         </a>
 
     <?php endif; ?>

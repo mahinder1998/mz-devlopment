@@ -487,3 +487,24 @@ body.mz-cart-open {
 nav.woocommerce-pagination {
     padding: 20px 0 0;
 }
+
+
+/* deaftlt pages */
+
+
+.privacy-policy main {
+    padding: 30px 0;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.privacy-policyp, .privacy-policyul {
+    margin: 0 0 14px;
+    font-size: 15px;
+}
+
+.privacy-policyh1, .privacy-policyh2, .privacy-policyh3, .privacy-policyh4, .privacy-policyh5 {
+    font-size: 16px;
+    margin: 10px 0;
+    font-weight: bold;
+}
