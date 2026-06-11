@@ -20,7 +20,7 @@ if (!function_exists('mz_pdp_img_url')) {
         if (is_string($img) && !empty($img)) return $img;
         return '';
     }
-}
+} 
 ?>
 
 <main class="bg-[#f3eadf] text-heading pb-24 md:pb-0">
@@ -68,14 +68,14 @@ $default_benefits = [
 ];
 ?>
 
-<section class="mz-pdp-container max-w-[1180px] mx-auto px-3 md:px-4 pt-4 md:pt-8">
+<section class="mz-pdp-container max-w-[1400px] mx-auto px-3 md:px-4 pt-4 md:pt-8">
     <div class="hidden md:block text-xs text-gray-600 mb-3">
         <a href="<?php echo esc_url(home_url('/')); ?>">Home</a> /
         <?php echo wc_get_product_category_list($product_id, ', '); ?> /
         <span><?php the_title(); ?></span>
     </div>
 
-    <div class="mz-pdp-card bg-white rounded-[22px] md:rounded-[28px] p-3 md:p-7 grid grid-cols-1 md:grid-cols-[58%_42%] gap-6 md:gap-8 shadow-sm">
+    <div class="mz-pdp-card bg-white rounded-[22px] md:rounded-[28px] p-3 md:p-7 grid grid-cols-1 md:grid-cols-[50%_50%] gap-6 md:gap-8 shadow-sm">
 
         <div class="min-w-0">
             <div class="mz-pdp-main-media relative rounded-[22px] overflow-hidden bg-[#eef5f1]">
@@ -113,7 +113,7 @@ $default_benefits = [
             </div>
         </div>
 
-        <div class="mz-pdp-info md:sticky md:top-28 self-start min-w-0">
+        <div class="mz-pdp-info md:sticky md:top-28 self-start min-w-0 md:max-w-[95%]">
             <h1 class="text-2xl md:text-4xl font-extrabold leading-tight mb-2">
                 <?php the_title(); ?>
             </h1>
@@ -198,7 +198,7 @@ $default_benefits = [
     <button id="mzPopupNext" type="button" class="absolute right-4 top-1/2 -translate-y-1/2 text-white text-5xl z-10">›</button>
 </div>
 
-<section class="max-w-[1180px] mx-auto px-3 md:px-4 py-5">
+<section class="max-w-[1400px] mx-auto px-3 md:px-4 py-5">
     <?php
     $sections = [
         'Description' => ['image' => '', 'prefix' => '', 'content' => apply_filters('the_content', get_the_content())],
@@ -291,7 +291,7 @@ $related_ids = wc_get_related_products($product_id, 4);
 if (!empty($related_ids)) :
 ?>
 <section class="bg-white py-8 md:py-12">
-    <div class="max-w-[1180px] mx-auto px-3 md:px-4">
+    <div class="max-w-[1400px] mx-auto px-3 md:px-4">
         <h2 class="text-center text-xl font-extrabold mb-6">Frequently bought together</h2>
 
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
