@@ -20,10 +20,27 @@ jobs:
           script: |
             cd ${{ secrets.HOSTINGER_PATH }}
 
-            git pull origin main
+            echo "Current path:"
+            pwd
 
-            # WordPress cache clear
+            echo "Current branch:"
+            git branch
+
+            echo "Reset local changes"
+            git fetch origin main
+            git reset --hard origin/main
+
+            echo "Latest commit:"
+            git log -1 --oneline
+
+            echo "Install packages"
+            npm install
+
+            echo "Build Tailwind"
+            npm run build
+
+            echo "Clear WP cache"
             if command -v wp >/dev/null 2>&1; then
-              wp cache flush --allow-root
+              wp cache flush --allow-root || true
               wp litespeed-purge all --allow-root || true
             fi
