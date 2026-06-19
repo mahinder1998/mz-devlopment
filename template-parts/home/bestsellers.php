@@ -105,9 +105,9 @@ $query = new WP_Query($args);
                                 </div>
 
                                 <a href="<?php the_permalink(); ?>">
-                                    <h3 class="font-extrabold text-base md:text-lg text-black leading-snug mb-1">
+                                    <p class="font-extrabold text-base md:text-lg text-black leading-snug mb-1">
                                         <?php the_title(); ?>
-                                    </h3>
+                                 </p>
                                 </a>
 
                                 <?php if ($short_desc) : ?>
