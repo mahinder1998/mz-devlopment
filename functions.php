@@ -845,3 +845,28 @@ function meziva_ajax_add_to_cart_product() {
 }
 add_action('wp_ajax_meziva_add_to_cart_product', 'meziva_ajax_add_to_cart_product');
 add_action('wp_ajax_nopriv_meziva_add_to_cart_product', 'meziva_ajax_add_to_cart_product');
+
+
+
+
+/* Dynamic Body Classes */
+function meziva_body_classes($classes) {
+
+    if (is_page()) {
+        global $post;
+
+        $classes[] = 'page-' . $post->post_name;
+        $classes[] = 'page-id-' . $post->ID;
+    }
+
+    if (is_single()) {
+        $classes[] = 'single-post-page';
+    }
+
+    if (is_home() || is_archive()) {
+        $classes[] = 'blog-page';
+    }
+
+    return $classes;
+}
+add_filter('body_class', 'meziva_body_classes');
