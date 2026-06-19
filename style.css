@@ -5,15 +5,13 @@ Version: 1.0
 Text Domain: meziva
 */
 
-
- 
 @font-face {
     font-family: 'Peachi';
     src: url('assets/fonts/Peachi-Regular.woff2') format('woff2'),
         url('assets/fonts/Peachi-Regular.woff') format('woff');
     font-weight: normal;
     font-style: normal;
-    font-display: swap;
+    font-display: swap;  
 }
 
 @font-face {
@@ -51,6 +49,8 @@ body, p, ul, a{
      font-family: 'Fira Sans';
       font-weight: normal;
 }
+
+
 
 
 
